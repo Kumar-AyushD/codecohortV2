@@ -45,10 +45,9 @@ export function EditUserForm({ user }: { user: User }) {
       ...values,
     };
 
-    // If password is provided, handle it securely
     if (values.password) {
       const hashedPassword = await bcrypt.hash(values.password, 10);
-      updatedValues.password = hashedPassword; // Add the hashed password to the update object
+      updatedValues.password = hashedPassword;
     }
 
     await editUserAction(updatedValues);
@@ -97,16 +96,17 @@ export function EditUserForm({ user }: { user: User }) {
           </FormItem>
         )} />
 
-        <FormField control={form.control} name="password" render={({ field }) => (
-          <FormItem>
-            <FormLabel>Password</FormLabel>
-            <FormControl>
-              <Input {...field} type="password" placeholder="********" />
-            </FormControl>
-            <FormDescription>Enter a new password if you'd like to change it.</FormDescription>
-            <FormMessage />
-          </FormItem>
-        )} />
+          <FormField control={form.control} name="password" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input {...field} type="password" placeholder="********" />
+              </FormControl>
+              <FormDescription>Enter a new password if you&apos;d like to change it.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )} />
+
 
         <Button type="submit" className="w-[30%] flex justify-center items-center mx-auto">Save Changes</Button>
       </form>

@@ -83,7 +83,7 @@ export default function SignInPage() {
           </div>
 
           <Button 
-            type='button'
+            type="button"
             variant="outline" 
             className="w-full relative overflow-hidden group" 
             onClick={handleGoogleSignIn}
@@ -96,7 +96,7 @@ export default function SignInPage() {
           </Button>
 
           <div className="mt-4 text-center text-sm">
-            Don't have an account?{' '}
+            Donot have an account?{' '}
             <a 
               href="/sign-up" 
               className="underline hover:text-blue-600"

@@ -14,6 +14,8 @@ declare module "next-auth" {
   }
 }
 
+type Credentials = Record<"email" | "password", string>;
+
 export const authConfig = {
   adapter: DrizzleAdapter(db) as Adapter,
   debug: true,
@@ -31,41 +33,45 @@ export const authConfig = {
         email: { label: "Email", type: "text", placeholder: "you@example.com" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: Credentials | undefined) {
         console.log("Authorizing with credentials:", credentials);
-      
-        const { email, password } = credentials ?? {};
+
+        if (!credentials) {
+          throw new Error("Credentials are required.");
+        }
+
+        const { email, password } = credentials;
         if (!email || !password) {
           throw new Error("Email and password are required");
         }
-      
+
         const user = await db.query.users.findFirst({
           where: (users, { eq }) => eq(users.email, email),
         });
-      
+
         if (!user) {
           throw new Error("No user found with this email.");
         }
-      
+
         if (!user.passwordHash) {
           throw new Error(
             "This account does not have a password set. Please sign in using Google or set a password."
           );
         }
-      
+
         const isValidPassword = await bcrypt.compare(password, user.passwordHash);
-      
+
         if (!isValidPassword) {
           throw new Error("Invalid password");
         }
-      
+
         return {
           id: user.id,
           name: user.name,
           email: user.email,
           image: user.image,
         };
-      }      
+      },
     }),
   ],
   pages: {
@@ -78,7 +84,7 @@ export const authConfig = {
       });
 
       if (!dbUser) {
-        throw new Error("no user with email found");
+        throw new Error("No user with email found");
       }
 
       return {
@@ -92,7 +98,7 @@ export const authConfig = {
       if (url.startsWith("/")) {
         return baseUrl + url;
       }
-      return baseUrl+"/";
+      return baseUrl + "/";
     },
     async session({ token, session }) {
       console.log(process.env.GOOGLE_CLIENT_ID);
