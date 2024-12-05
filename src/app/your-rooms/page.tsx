@@ -4,6 +4,7 @@ import { getUserRooms } from "@/data-access/rooms";
 import { UserRoomCard } from "./user-room-card";
 import { unstable_noStore } from "next/cache";
 import Image from "next/image";
+import img from "@/public/no-data.png"
 import { RainbowButton } from "@/components/ui/rainbow-button";
 
 // Add password property to the Room interface
@@ -41,7 +42,7 @@ export default async function YourRoomsPage() {
       {rooms.length === 0 && (
         <div className="flex flex-col gap-4 justify-center items-center mt-24">
           <Image
-            src="/no-data.svg"
+            src = {img}
             width="200"
             height="200"
             alt="no data image"

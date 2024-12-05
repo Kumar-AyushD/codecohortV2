@@ -2,6 +2,8 @@ import { unstable_noStore } from "next/cache";
 import { fetchTopRooms } from "./action";
 import { RoomCard } from "@/app/browse/room-cards";
 import Image from "next/image";
+import img from "@/public/no-data.png"
+
 interface Room {
   id: string;
   userId: string;
@@ -22,23 +24,22 @@ export default async function Home() {
         <h1 className="text-4xl">Recommended Rooms for You</h1>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {rooms && rooms.length > 0 ? (
-          rooms.map((room: Room) => {
+          {rooms.map((room: Room) => {
             return <RoomCard key={room.id} room={room} />
-          })
-        ) : (
-          <div className="flex flex-col gap-4 justify-center items-center mt-24">
+          }
+        )}
+      </div>
+
+      {rooms.length == 0 && 
+      <div className="flex flex-col gap-4 justify-center items-center mt-24 ml-auto">
             <Image
-              src="/no-data.svg"
+              src={img}
               width="200"
               height="200"
               alt="No data image"
-              className="no-data-image"
             />
             <h2 className="text-2xl">No Rooms Yet!</h2>
-          </div>
-        )}
-      </div>
+          </div>}
     </main>
   );
 }

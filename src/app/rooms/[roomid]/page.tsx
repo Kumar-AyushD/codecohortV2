@@ -9,11 +9,11 @@ import { unstable_noStore } from "next/cache";
 export default async function RoomPage({
   params,
 }: {
-  params: { roomid: string };
+  params: { roomId: string };
 }) {
   unstable_noStore();
 
-  const room = await getRoom(params.roomid);
+  const room = await getRoom(params.roomId);
 
   if (!room) {
     return (

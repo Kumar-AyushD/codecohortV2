@@ -25,12 +25,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { deleteAccountAction } from "./actions";
+import img from "@/public/default-image.png"
 import LetterPullup from "@/components/ui/letter-pullup";
 
 function AccountDropdown() {
   const router = useRouter();
   const session = useSession();
   const [open, setOpen] = useState(false);
+  const avatarUrl = session.data?.user?.image ?? img.src;
+
 
   return (
     <>
@@ -61,7 +64,7 @@ function AccountDropdown() {
         <DropdownMenuTrigger asChild>
           <Button variant={"link2"}>
             <Avatar className="">
-              <AvatarImage src={session.data?.user?.image ?? ""} />
+              <AvatarImage src={avatarUrl} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
 
@@ -97,6 +100,7 @@ function AccountDropdown() {
 
 export function Header() {
   const session = useSession();
+  const router = useRouter();
   const isLoggedIn = !!session.data;
 
   return (
@@ -189,12 +193,12 @@ export function Header() {
       </Link>
     </>
   )}
-</nav>
+        </nav>
 
         <div className="flex items-center">
           {isLoggedIn && <AccountDropdown />}
           {!isLoggedIn && (
-            <Button onClick={() => signIn() } variant="link2">
+            <Button onClick={() => router.push('/sign-in') } variant="link2">
               <LogInIcon className="mr-2" /> Sign In
             </Button>
           )}

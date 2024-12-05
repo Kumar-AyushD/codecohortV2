@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
+import img1 from "@/public/default-image.png"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -82,7 +83,7 @@ export default function Profile({
             <header className="space-y-4 text-center">
               <div className="flex flex-col items-center space-y-4">
                 <Image
-                  src={user.image ?? "/default-image.png"}
+                  src={user.image ?? img1}
                   alt="Avatar"
                   width="150"
                   height="150"
