@@ -81,7 +81,7 @@ This platform is a collaborative environment where developers can create and joi
 - **Room History**: Users can view a history of all the rooms they've joined or created.
 - **Project Contributions**: Users can see a list of their contributions to various projects within the platform.
 
-![User Profile](screenshots/user-profile.png)
+![User Profile](screenshots/profile.png)
 
 
 ---
