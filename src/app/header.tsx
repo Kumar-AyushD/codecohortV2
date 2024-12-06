@@ -3,7 +3,8 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { Menu, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,8 +65,16 @@ function AccountDropdown() {
         <DropdownMenuTrigger asChild>
           <Button variant={"link2"}>
             <Avatar className="">
-              <AvatarImage src={avatarUrl} />
-              <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage 
+              src={avatarUrl} 
+              alt={session.data?.user?.name || "User Avatar"}
+              onError={(e) => {
+                e.currentTarget.src = img.src;
+              }}
+            />
+              <AvatarFallback>
+                {session.data?.user?.name?.[0] || 'CN'}
+              </AvatarFallback>
             </Avatar>
 
             {/* {session.data?.user?.name} */}
@@ -102,10 +111,39 @@ export function Header() {
   const session = useSession();
   const router = useRouter();
   const isLoggedIn = !!session.data;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const MobileMenu = () => (
+    <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg border dark:border-gray-700">
+      <div className="py-1">
+        <Link
+          href="/browse"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Browse
+        </Link>
+        <Link
+          href="/your-rooms"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Your Rooms
+        </Link>
+        <Link
+          href="/recommendations"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Recommendations
+        </Link>
+      </div>
+    </div>
+  );
 
   return (
     <header className="bg-gray-100 p-4 dark:bg-gray-900 z-10 relative rounded-xl shadow-[0_4px_10px_0_rgba(139,92,246,0.4),0_6px_15px_0_rgba(236,72,153,0.3)]">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center relative">
         <Link
           href="/" 
           className="flex gap-2 items-center text-xl font-bold no-underline"
@@ -122,7 +160,7 @@ export function Header() {
 
         
 
-        <nav className="flex gap-8 items-center">
+        <nav className="hidden md:flex gap-8 items-center">
   {isLoggedIn && (
     <>
 
@@ -196,6 +234,19 @@ export function Header() {
         </nav>
 
         <div className="flex items-center">
+          {/* Mobile Menu Toggle */}
+          {isLoggedIn && (
+            <div className="relative md:hidden">
+              <Button 
+                variant="ghost" 
+                className="mr-2"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </Button>
+              {isMobileMenuOpen && <MobileMenu />}
+            </div>
+          )}
           {isLoggedIn && <AccountDropdown />}
           {!isLoggedIn && (
             <Button onClick={() => router.push('/sign-in') } variant="link2">

@@ -26,25 +26,29 @@ export default async function Home({
 }) {
   unstable_noStore();
   const rooms: Room[] = await getRooms(searchParams.search);
-  console.log("Hello", rooms);
+  // console.log("Hello", rooms);
 
   return (
-    <main className="min-h-screen p-16">
-      <div className="flex justify-between">
-        <h1 className="text-2xl">Find Dev Rooms</h1>
-        <RainbowButton color="">
-          <Link href="/create-room">Create Room</Link>
-        </RainbowButton>
+    <main className="min-h-screen p-4 md:p-16">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+        <h1 className="text-xl md:text-2xl font-bold text-center sm:text-left w-full sm:w-auto">
+          Find Dev Rooms
+        </h1>
+        <div className="w-full sm:w-auto flex justify-center sm:justify-end">
+          <RainbowButton color="" className="w-full sm:w-auto">
+            <Link href="/create-room">Create Room</Link>
+          </RainbowButton>
+        </div>
       </div>
 
       <div className="mb-8">
         <SearchBar />
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        {rooms.map((room: Room) => {
-          return <RoomCard key={room.id} room={room} />;
-        })}
+      <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {rooms.map((room: Room) => (
+          <RoomCard key={room.id} room={room} />
+        ))}
       </div>
 
       {rooms.length === 0 && (
@@ -56,7 +60,7 @@ export default async function Home({
             alt="no data image"
           />
 
-          <h2 className="text-2xl">No Rooms Yet!</h2>
+          <h2 className="text-xl md:text-2xl font-semibold">No Rooms Yet!</h2>
 
           <Button asChild>
             <Link href="/create-room">Create Room</Link>
@@ -64,5 +68,6 @@ export default async function Home({
         </div>
       )}
     </main>
+
   );
 }

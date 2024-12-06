@@ -80,17 +80,23 @@ export function RoomCard({ room }: { room: Room }) {
   };
 
   return (
-    <Card className="relative">
+    <Card className="relative w-full md:w-[300px] lg:w-[400px] max-w-full mx-auto">
+
       <CardHeader>
         <div className="absolute top-2 right-2">
           <Tooltip text={room.password ? "Room is password-protected" : "Room has no password"}>
             {room.password && <LockKeyhole color="#f56161" />}{ !room.password && <LockOpen color="#3e77ea" />}
           </Tooltip>
         </div>
-        <CardTitle>{room.name}</CardTitle>
-        <CardDescription>{room.description}</CardDescription>
+        <CardTitle className="text-lg md:text-xl font-bold">
+          {room.name}
+        </CardTitle>
+        <CardDescription className="text-sm md:text-base">
+          {room.description}
+        </CardDescription>
+
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-4 sm:gap-6">
         <TagsList tags={splitTags(room.tags)} />
         {room.githubRepo && (
           <Link
@@ -105,7 +111,7 @@ export function RoomCard({ room }: { room: Room }) {
         )}
       </CardContent>
       <CardFooter>
-        <Button onClick={handleJoinRoom}>Join Room</Button>
+        <Button  className="w-full sm:w-auto" onClick={handleJoinRoom}>Join Room</Button>
       </CardFooter>
 
       <AlertDialog open={open} onOpenChange={setOpen}>

@@ -27,14 +27,14 @@ export default async function RoomPage({
   }
 
   return (
-    <div className="grid grid-cols-4 min-h-screen">
-      <div className="col-span-3 p-4 pr-2">
+    <div className="grid grid-cols-1 md:grid-cols-4 min-h-screen">
+      <div className="md:col-span-3 p-4 md:pr-2">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 min-h-screen">
           <DevFinderVideo room={room} />
         </div>
       </div>
 
-      <div className="col-span-1 p-4 pl-2">
+      <div className="md:col-span-1 p-4 md:pl-2">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 flex flex-col gap-4">
           <h1 className="text-lg font-bold">{room?.name || "Untitled Room"}</h1>
 
