@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,12 +10,22 @@ import { Separator } from '@/components/ui/separator';
 import { signIn } from 'next-auth/react';
 import { signUpAction } from './action';
 import { useRouter } from 'next/navigation';
+import { getSession } from 'next-auth/react';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      if (session) {
+        router.push("/");
+      }
+    })();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
